@@ -26,6 +26,9 @@ function jeu(choixJoueur){
 	console.log("ia choix =>" + iaChoix);
 	console.log(partie(choixJoueur,iaChoix));
 	console.log(historique);
+	document.getElementById("score").innerHTML =  partie(choixJoueur,iaChoix) ;
+	document.getElementById("return").innerHTML =   "joueur choix =>" + choixJoueur + " " + "ia choix =>" +iaChoix;
+
 	return choixJoueur;
 }
 
