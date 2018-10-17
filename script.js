@@ -4,8 +4,9 @@ const pierre_div = document.getElementById("pierre");
 const papier_div = document.getElementById("papier");	
 const ciseaux_div = document.getElementById("ciseaux");	
 var historique = 0;
-var timer;
-
+var count;
+var second = 0;
+var start = false;
 
 function getIaChoix(){
 	var les_choix = ["pierre", "papier", "ciseaux"];
@@ -33,20 +34,29 @@ function jeu(choixJoueur){
 
 	function FonctionPierre(e) {
 		jeu("pierre");
-		clearTimeout(timer);
-		chrono(3000);		
+		clearInterval(count);
+		count = setInterval(timer,1000);
+		second = 0;	
+		document.getElementById("timer").innerHTML = second +1;
+		start = true;
 	} 
 
 	function FonctionPapier(e) {
 		jeu("papier");
-		clearTimeout(timer);
-		chrono(3000);
+		clearInterval(count);
+		count = setInterval(timer,1000);
+		second = 0;
+		document.getElementById("timer").innerHTML = second +1;
+		start = true;
 	} 
 
 	function FonctionCiseaux(e) {
 		jeu("ciseaux");
-		clearTimeout(timer);
-		chrono(3000);
+		clearInterval(count);
+		count = setInterval(timer,1000);
+		second = 0;
+		document.getElementById("timer").innerHTML = second +1;
+		start = true;
 	} 
 
 function partie(choixJoueur,iaChoix){
@@ -91,11 +101,7 @@ function partie(choixJoueur,iaChoix){
 			}
 
 		}
-
 }
-
-
-
 
 //Pierre
 
@@ -114,14 +120,15 @@ function ChoixIA(h,choixJoueur) {
 	}
 }
 
-
 //Anthony
 
-function chrono(time)
+function timer()
 {
-	timer = setTimeout(timeOut,time);
-}
-function timeOut()
-{
-	alert("Temps écoulé !");
+	second++;
+	document.getElementById("timer").innerHTML = second +1;
+	if(second >= 3 && start == true){
+		alert("Temps écoulé !");
+		start = false;
+		clearInterval(count);
+	}
 }
