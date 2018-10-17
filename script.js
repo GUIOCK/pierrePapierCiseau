@@ -7,11 +7,13 @@ var historique = 0;
 var count;
 var second = 0;
 var start = false;
+var coups = ["l","k"];
 
 function getIaChoix(){
 	var les_choix = ["pierre", "papier", "ciseaux"];
-	return les_choix[hasard(0,3)];
-	
+	var choix = signe(coups[0], coups[1],les_choix);
+	coups.unshift(choix);
+	return choix;
 }
 
 function hasard(Min,Max) { 
@@ -108,7 +110,6 @@ function partie(choixJoueur,iaChoix){
 
 //Pierre
 
-
 function ChoixIA(h,choixJoueur) {
 	if (historique >= 42) {
 		if (choixJoueur = "pierre"){
@@ -133,5 +134,30 @@ function timer()
 		alert("Temps écoulé !");
 		start = false;
 		clearInterval(count);
+	}
+}
+
+// André
+
+function signe(coup1,coup2,choix) 
+{
+	var tempChoix
+	if (coup1 == coup2) {
+		console.log("Signe appeller : " + coup1 + "  " + coup2);
+		switch(coup1){
+			case "ciseaux" :
+				tempChoix = ["pierre","papier"];
+			break;
+			case "pierre" :
+				tempChoix = ["ciseaux","papierr"];
+			break;
+			case "papier" :
+				tempChoix = ["ciseaux","pierre"];
+			break;
+		}
+		return tempChoix[hasard(0,2)];
+	}
+	else {
+		return choix[hasard(0,3)];
 	}
 }
