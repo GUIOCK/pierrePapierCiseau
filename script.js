@@ -18,7 +18,7 @@ function hasard(Min,Max) {
 } 
 
 function jeu(choixJoueur){
-	var iaChoix = FinPartie(historique,choixJoueur);
+	var iaChoix = ChoixIA(historique,choixJoueur);
 	historique++ ;
 
 	console.log("joueur choix =>" + choixJoueur);
@@ -32,25 +32,18 @@ function jeu(choixJoueur){
 
 
 	function FonctionPierre(e) {
-		
-		//var a = e.target;
-		//console.log(" pierre");
 		jeu("pierre");
 		clearTimeout(timer);
 		chrono(3000);		
 	} 
 
 	function FonctionPapier(e) {
-		//var a = e.target;
-		//console.log(" papier");
 		jeu("papier");
 		clearTimeout(timer);
 		chrono(3000);
 	} 
 
 	function FonctionCiseaux(e) {
-		//var a = e.target;
-		//console.log(" ciseaux");
 		jeu("ciseaux");
 		clearTimeout(timer);
 		chrono(3000);
@@ -107,7 +100,7 @@ function partie(choixJoueur,iaChoix){
 //Pierre
 
 
-function FinPartie(h,choixJoueur) {
+function ChoixIA(h,choixJoueur) {
 	if (historique >= 42) {
 		if (choixJoueur = "pierre"){
 			return "papier";
@@ -120,6 +113,9 @@ function FinPartie(h,choixJoueur) {
 		return getIaChoix();
 	}
 }
+
+
+//Anthony
 
 function chrono(time)
 {
