@@ -3,35 +3,31 @@ const papier_div = document.getElementById("papier");
 const ciseaux_div = document.getElementById("ciseaux");	
 var historique = 0;
 var count;
-var second = 0;
-var start = false;
+var second = 3;
 var coups = ["l","k"];
+var pseudo;
 
-function FonctionPierre(e) {
-	jeu("pierre");
-	clearInterval(count);
-	count = setInterval(timer,1000);
-	second = 0;	
-	document.getElementById("timer").innerHTML = second + 1 + " seconde(s) écoulée(s)";
-	start = true;
-} 
 
-function FonctionPapier(e) {
-	jeu("papier");
-	clearInterval(count);
-	count = setInterval(timer,1000);
-	second = 0;
-	document.getElementById("timer").innerHTML = second + 1 + " seconde(s) écoulée(s)";
-	start = true;
-} 
-
-function FonctionCiseaux(e) {
-	jeu("ciseaux");
-	clearInterval(count);
-	count = setInterval(timer,1000);
-	second = 0;
-	document.getElementById("timer").innerHTML = second + 1 + " seconde(s) écoulée(s)";
-	start = true;
+function setTimer() {
+	if (count)
+		clearInterval(count);
+	count = setInterval(function() {
+	console.log('timer1', count);
+		second--;
+		document.getElementById("timer").innerHTML = "seconde(s) restante(s)" + second;
+		if(second == 0){
+			console.log("Temps écoulé !");
+			clearInterval(count);
+			restart();
+			second = 3;
+			document.getElementById("timer").innerHTML = "seconde(s) restante(s)" + second;
+		}
+	},1000);
+	console.log('timer2', count);
+}
+function FonctionSelect(e) {
+	setTimer();
+	jeu(e);
 } 
 
 function jeu(choixJoueur){
@@ -39,56 +35,65 @@ function jeu(choixJoueur){
 	historique++ ;
 	console.log("joueur choix =>" + choixJoueur);
 	console.log("ia choix =>" + iaChoix);
-	console.log(partie(choixJoueur,iaChoix));
+	//console.log(partie(choixJoueur,iaChoix));
 	console.log(historique);
-	document.getElementById("return").innerHTML =   "Tu as choisis : <img src='" + choixJoueur + ".png'></img> // " + "L'IA a choisis  : <img src=' " +iaChoix + ".png'></img>";
-	document.getElementById("score").innerHTML =  "Tu viens de " + partie(choixJoueur,iaChoix)  ;
+	document.getElementById("return").innerHTML =   pseudo + "as choisis : <img src='" + choixJoueur + ".png'></img> // " + "L'IA a choisis  : <img src=' " +iaChoix + ".png'></img>";
+	document.getElementById("score").innerHTML =   pseudo + "viens de " + partie(choixJoueur,iaChoix)  ;
 	return choixJoueur;
 }
 
 function partie(choixJoueur,iaChoix){
-	if (choixJoueur == "pierre") {
-		switch (iaChoix){
-			case "pierre" :
-				return "faire égalité"; 
-			break;
-			case "papier":
-				return "perdre";
-			break;
-			case "ciseaux":
-				return "gagné";
-			break;
+		if (choixJoueur == "pierre") {
+			switch (iaChoix){
+				case "pierre" :
+					return "faire égalité"; 
+				break;
+				case "papier":
+					restart();
+					return "perdre";
+				break;
+				case "ciseaux":
+					return "gagné";
+				break;
+			}
+
+		}
+		else if (choixJoueur == "papier") {
+			switch (iaChoix){
+				case "pierre" :
+					return "gagné"; 
+				break;
+				case "papier":
+					return "faire égalité";
+				break;
+				case "ciseaux":
+					restart();
+					return "perdre";
+				break;
+			}
+
+		}else { //choix joueur ciseaux
+			switch (iaChoix){
+				case "pierre" :
+					restart();
+					return "perdre"; 
+				break;
+				case "papier":
+					return "gagné";
+				break;
+				case "ciseaux":
+					return "faire égalité";
+				break;
+			}
+
 		}
 
-	} else if (choixJoueur == "papier") {
-		switch (iaChoix){
-			case "pierre" :
-				return "gagné"; 
-			break;
-			case "papier":
-				return "faire égalité";
-			break;
-			case "ciseaux":
-				return "perdre";
-			break;
-		}
-	} else { //choix joueur ciseaux
-		switch (iaChoix){
-			case "pierre" :
-				return "perdre"; 
-			break;
-			case "papier":
-				return "gagné";
-			break;
-			case "ciseaux":
-				return "faire égalité";
-			break;
-		}
-	}
 }
 
-function ChoixIA(choixJoueur) {
-	if (historique >= 41) {
+//Pierre
+
+function ChoixIA(historique,choixJoueur) {
+	if (historique >= 42) {
 		if (choixJoueur == "pierre"){
 			return "papier";
 		} else if (choixJoueur == "papier"){
@@ -107,6 +112,20 @@ function getIaChoix(){
 	coups.unshift(choix);
 	return choix;
 }
+
+function restart(){
+
+	console.log('timer3', count);
+	if (count)
+		clearInterval(count);
+	historique = 0;
+	alert("Tu a PERDU !!");
+	//alerte qui se relance.
+	pseudo= prompt("Veuillez entrer votre pseudo : ");
+	second = 3;
+		document.getElementById("timer").innerHTML = "seconde(s) restante(s)" + second;
+}
+// André
 
 function signe(coup1,coup2,choix) 
 {
@@ -136,14 +155,3 @@ function hasard(Min,Max) {
 } 
 
 //Anthony
-
-function timer()
-{
-	second++;
-	document.getElementById("timer").innerHTML = second + 1 + " seconde écoulé";
-	if(second >= 3 && start == true){
-		alert("Temps écoulé !");
-		start = false;
-		clearInterval(count);
-	}
-}
