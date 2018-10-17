@@ -26,8 +26,8 @@ function jeu(choixJoueur){
 	console.log("ia choix =>" + iaChoix);
 	console.log(partie(choixJoueur,iaChoix));
 	console.log(historique);
-	document.getElementById("score").innerHTML =  partie(choixJoueur,iaChoix) ;
-	document.getElementById("return").innerHTML =   "joueur choix =>" + choixJoueur + " " + "ia choix =>" +iaChoix;
+	document.getElementById("return").innerHTML =   "Tu as choisis : <img src='" + choixJoueur + ".png'></img> // " + "L'IA a choisis  : <img src=' " +iaChoix + ".png'></img>";
+	document.getElementById("score").innerHTML =  "Tu viens de " + partie(choixJoueur,iaChoix)  ;
 
 	return choixJoueur;
 }
@@ -40,7 +40,7 @@ function jeu(choixJoueur){
 		clearInterval(count);
 		count = setInterval(timer,1000);
 		second = 0;	
-		document.getElementById("timer").innerHTML = second +1;
+		document.getElementById("timer").innerHTML = second +1 + " seconde écoulé";
 		start = true;
 	} 
 
@@ -49,7 +49,7 @@ function jeu(choixJoueur){
 		clearInterval(count);
 		count = setInterval(timer,1000);
 		second = 0;
-		document.getElementById("timer").innerHTML = second +1;
+		document.getElementById("timer").innerHTML = second +1 + " seconde écoulé";
 		start = true;
 	} 
 
@@ -58,7 +58,7 @@ function jeu(choixJoueur){
 		clearInterval(count);
 		count = setInterval(timer,1000);
 		second = 0;
-		document.getElementById("timer").innerHTML = second +1;
+		document.getElementById("timer").innerHTML = second +1 + " seconde écoulé";
 		start = true;
 	} 
 
@@ -66,10 +66,10 @@ function partie(choixJoueur,iaChoix){
 		if (choixJoueur == "pierre") {
 			switch (iaChoix){
 				case "pierre" :
-					return "égalité"; 
+					return "faire égalité"; 
 				break;
 				case "papier":
-					return "perdu";
+					return "perdre";
 				break;
 				case "ciseaux":
 					return "gagné";
@@ -83,23 +83,23 @@ function partie(choixJoueur,iaChoix){
 					return "gagné"; 
 				break;
 				case "papier":
-					return "égalité";
+					return "faire égalité";
 				break;
 				case "ciseaux":
-					return "perdu";
+					return "perdre";
 				break;
 			}
 
 		}else { //choix joueur ciseaux
 			switch (iaChoix){
 				case "pierre" :
-					return "perdu"; 
+					return "perdre"; 
 				break;
 				case "papier":
 					return "gagné";
 				break;
 				case "ciseaux":
-					return "égalité";
+					return "faire égalité";
 				break;
 			}
 
@@ -128,7 +128,7 @@ function ChoixIA(h,choixJoueur) {
 function timer()
 {
 	second++;
-	document.getElementById("timer").innerHTML = second +1;
+	document.getElementById("timer").innerHTML = second +1 + " seconde écoulé";
 	if(second >= 3 && start == true){
 		alert("Temps écoulé !");
 		start = false;
