@@ -5,7 +5,7 @@
 	<title> Pierre Papier Ciseaux</title> 
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
+<body onload="restart()">
 		<header>
 			<h1>Pierre Papier Ciseaux</h1>
 		</header>
@@ -14,13 +14,14 @@
 
 	<div class="les_choix">
 
-		<div class="choix" id="pierre"> <button onclick="FonctionPierre(this)"><img src="pierre.png" alt="pierre"></button></div>
+		<div class="choix" id="pierre"> <button onclick="FonctionSelect('pierre')"><img src="pierre.png" alt="pierre"></button></div>
 			
-		<div class="choix" id="papier"><button onclick="FonctionPapier(this)"><img src="papier.png" alt="papier"></button></div>
+		<div class="choix" id="papier"><button onclick="FonctionSelect('papier')"><img src="papier.png" alt="papier"></button></div>
 			
-		<div class="choix" id="ciseaux"><button onclick="FonctionCiseaux(this)"><img src="ciseaux.png"alt="ciseaux"></button></div>
+		<div class="choix" id="ciseaux"><button onclick="FonctionSelect('ciseaux')"><img src="ciseaux.png"alt="ciseaux"></button></div>
 			
-		 <button id="rez" onclick="restart(this)">Recommencer</button>
+		 <button id="rez" onclick="restart()">Recommencer</button>
+		 <button onclick="afficheHighScore()">Afficher les records</button>
 			<div id="return"></div>
 			
 			<div id="score"></div>
@@ -36,6 +37,7 @@
 
 
 	<script src="script.js"></script>
+	<element onload="restart()"></element>
 
 
 	<footer>By André, Anthony, Pierre, Thibaud</footer>

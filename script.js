@@ -6,13 +6,13 @@ var count;
 var second = 3;
 var coups = ["l","k"];
 var pseudo;
-
+var scoreTab = [[],[]];
 
 function setTimer() {
-	if (count)
-		clearInterval(count);
+	second = 3;
+	clearInterval(count);
 	count = setInterval(function() {
-	console.log('timer1', count);
+		console.log('timer1', count);
 		second--;
 		document.getElementById("timer").innerHTML = "seconde(s) restante(s)" + second;
 		if(second == 0){
@@ -32,14 +32,17 @@ function FonctionSelect(e) {
 
 function jeu(choixJoueur){
 	var iaChoix = ChoixIA(choixJoueur);
+	var result = partie(choixJoueur,iaChoix);
 	historique++ ;
 	console.log("joueur choix =>" + choixJoueur);
 	console.log("ia choix =>" + iaChoix);
 	//console.log(partie(choixJoueur,iaChoix));
 	console.log(historique);
-	document.getElementById("return").innerHTML =   pseudo + "as choisis : <img src='" + choixJoueur + ".png'></img> // " + "L'IA a choisis  : <img src=' " +iaChoix + ".png'></img>";
-	document.getElementById("score").innerHTML =   pseudo + "viens de " + partie(choixJoueur,iaChoix)  ;
-	return choixJoueur;
+	if(result != "perdre"){
+		document.getElementById("return").innerHTML =   pseudo + "as choisis : <img src='" + choixJoueur + ".png'></img> // " + "L'IA a choisis  : <img src=' " +iaChoix + ".png'></img>";
+		document.getElementById("score").innerHTML = pseudo + "viens de " + result + "   c'est le "+ historique + " tour de survie !";
+	}
+	//return choixJoueur;
 }
 
 function partie(choixJoueur,iaChoix){
@@ -49,7 +52,7 @@ function partie(choixJoueur,iaChoix){
 					return "faire égalité"; 
 				break;
 				case "papier":
-					restart();
+					lose();
 					return "perdre";
 				break;
 				case "ciseaux":
@@ -67,7 +70,7 @@ function partie(choixJoueur,iaChoix){
 					return "faire égalité";
 				break;
 				case "ciseaux":
-					restart();
+					lose();
 					return "perdre";
 				break;
 			}
@@ -75,7 +78,7 @@ function partie(choixJoueur,iaChoix){
 		}else { //choix joueur ciseaux
 			switch (iaChoix){
 				case "pierre" :
-					restart();
+					lose();
 					return "perdre"; 
 				break;
 				case "papier":
@@ -114,16 +117,59 @@ function getIaChoix(){
 }
 
 function restart(){
-
-	console.log('timer3', count);
-	if (count)
-		clearInterval(count);
-	historique = 0;
-	alert("Tu a PERDU !!");
-	//alerte qui se relance.
-	pseudo= prompt("Veuillez entrer votre pseudo : ");
+	document.getElementById("return").innerHTML = "";
+	document.getElementById("score").innerHTML = "";
 	second = 3;
-		document.getElementById("timer").innerHTML = "seconde(s) restante(s)" + second;
+	clearInterval(count);
+	historique = 0;
+	pseudo= prompt("Veuillez entrer votre pseudo : ");
+	document.getElementById("return").innerHTML = "Bienvenue, " + pseudo + " !";
+	document.getElementById("timer").innerHTML = "secondes restantes : " + second;
+}
+
+function lose()
+{
+	scoreTab[0].push(pseudo);
+	scoreTab[1].push(historique);
+	alert("Tu as perdu !");
+	console.log(scoreTab);
+	tri();
+	restart();
+	//return bufferScore;
+}
+
+function tri()
+{
+	var tri;
+	var bufferScore;
+	var bufferPseudo;
+	console.log(scoreTab);
+	do{
+		tri = true;
+		for(var i = 0; i < (scoreTab[1].length); i++){
+			if(scoreTab[1][i] < scoreTab[1][i+1]){
+				bufferScore = scoreTab[1][i];
+				bufferPseudo = scoreTab[0][i];
+				scoreTab[1][i] = scoreTab[1][i+1];
+				scoreTab[0][i] = scoreTab[0][i+1];
+				scoreTab[1][i+1] = bufferScore;
+				scoreTab[0][i+1] = bufferPseudo;
+				tri = false;
+			}
+		}
+	}while(!tri);
+	console.log(scoreTab);
+}
+
+function afficheHighScore()
+{
+	var string = "<table>";
+	string += "<tr><th>Pseudo</th><th>Score</th></tr>";
+	for(var i = 0; i < scoreTab[0].length;i++){
+		string += "<tr><td>" + scoreTab[0][i] + "</td><td>" + scoreTab[1][i] + "</td></tr>";
+	}
+	string += "</table>";
+	document.getElementById("score").innerHTML = string;
 }
 // André
 
@@ -154,4 +200,8 @@ function hasard(Min,Max) {
     return (Math.floor((Max-Min)*Math.random())+Min); 
 } 
 
+function score()
+{
+
+}
 //Anthony
